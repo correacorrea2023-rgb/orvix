@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #fafaf9;
+  --color-foreground: #17171a;
+  --color-muted: #6b6b73;
+  --color-border: #e4e4e7;
+  --color-accent: #6e56cf;
+  --color-accent-foreground: #ffffff;
+
+  --radius-md: 0.5rem;
+}
+
+/* Dark mode: se sobreescriben los mismos tokens, no se duplica nada más. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0e0e10;
+    --color-foreground: #f2f2f3;
+    --color-muted: #8a8a93;
+    --color-border: #232326;
+  }
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
