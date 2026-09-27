@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 
 export interface Workspace {
@@ -26,3 +27,21 @@ export async function getWorkspacesForCurrentUser(): Promise<Workspace[]> {
 
   return data ?? []
 }
+
+// cache() de React deduplica: si layout.tsx y page.tsx piden el mismo
+// slug en el mismo request, esto corre la consulta una sola vez.
+export const getWorkspaceBySlug = cache(async (slug: string): Promise<Workspace | null> => {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('workspaces')
+    .select('id, name, slug, description, icon, color, created_at')
+    .eq('slug', slug)
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+})
